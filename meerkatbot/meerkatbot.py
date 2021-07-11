@@ -1,49 +1,28 @@
+from meerkatbot.logger import Logger
 from discord.ext import commands
 
+from meerkatbot.exceptions import MeerkatExceptions
+from meerkatbot.events import MeerkatEvents
+from meerkatbot.commands import MeerkatCommands
 
-class MeerkatBot:
+
+class MeerkatBot(MeerkatExceptions, MeerkatEvents, MeerkatCommands):
     def __init__(self, **configs):
         hasToken = 'token' in configs
         hasPrefix = 'prefix' in configs
-        hasLogging = 'logging' in configs
+        hasLogger = 'logger' in configs
+        # ? the token & prefix are required arguments
         if not hasToken or not hasPrefix:
-            raise Exception(
-                'Verify you are sending token and prefix keyword variables to MeerkatBot <constructor>, these are required arguments.'
-            )
+            return self.badFormedMeerkatInstance()
+
         self.token = configs['token']
         self.prefix = configs['prefix']
-        self.logging = True if not hasLogging else configs['logging']
+        self.logger = Logger().log if not hasLogger else configs['logger']
         self.meerkat = commands.Bot(command_prefix=self.prefix)
 
-    def badFormedCommandBulkUse(self):
-        raise Exception(
-            'Verify you are sending (name=str, command=async function) to MeerkatBot <use> method [(name, command), (name,command)], these are required arguments.'
-        )
-
-    def bulkUse(self, uses):
-        for use in uses:
-            # ? Types verifications
-            if type(use) != tuple:
-                self.badFormedCommandBulkUse()
-            if type(use[0]) != str or not callable(use[1]):
-                self.badFormedCommandBulkUse()
-
-            # ? Setting up discord command
-            name, command = use
-            self.meerkat.command(name=name)(command)
-
-        return self
-
-    def use(self, name=None, command=None):
-        if type(name) != str or not callable(command):
-            raise Exception(
-                'Verify you are sending name and command keyword variables to MeerkatBot <use> method, these are required arguments.'
-            )
-
-        self.meerkat.command(name=name)(command)
-        return self
+        # ? Initializing inherited modules
+        super().__init__()
 
     def run(self):
-        if self.logging:
-            print("* STARTING MEERKAT BOT *")
+        self.logger('okGreen', '* STARTING MEERKAT BOT *')
         self.meerkat.run(self.token)

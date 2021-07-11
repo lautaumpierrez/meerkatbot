@@ -1,3 +1,5 @@
 dist/
 meerkatbot.egg-info/
 build/
+dev.py
+__pycache__/*
