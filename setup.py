@@ -8,7 +8,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 setup(
     name='meerkatbot',
     packages=find_packages(include=["meerkatbot"]),
-    version='0.1.0.4',
+    version='0.1.0.5',
     description='MeerkatBot is an extra layout to discord py',
     long_description=long_description,
     long_description_content_type='text/markdown',
