@@ -7,5 +7,6 @@ setup(
     description='MeerkatBot is an extra layout to discord py',
     author='Lautaro Umpiérrez',
     license='MIT',
-    install_requires=['discord', 'asyncio']
+    install_requires=['discord', 'asyncio'],
+    url="https://github.com/lautaumpierrez/meerkatbot.git"
 )
