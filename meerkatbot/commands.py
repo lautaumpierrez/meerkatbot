@@ -17,8 +17,7 @@ class MeerkatCommands:
             raise Exception(
                 'Verify you are sending name and command to MeerkatBot <use> method, these are required arguments.'
             )
-
-        self.meerkat.command(name=name)(command)
+        self.bot.command(name=name)(command)
 
         if end:
             return self

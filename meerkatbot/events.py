@@ -1,10 +1,10 @@
 
 class MeerkatEvents:
     def onMessageEvent(self, event):
-        @self.meerkat.event
+        @self.bot.event
         async def on_message(message):
             await event(message)
-            await self.meerkat.process_commands(message)
+            await self.bot.process_commands(message)
 
     def bulkOn(self, events):
         if type(events) != list:
@@ -24,6 +24,6 @@ class MeerkatEvents:
         if name == 'message':
             self.onMessageEvent(event)
         else:
-            self.meerkat.event(event)
+            self.bot.event(event)
         if end:
             return self
